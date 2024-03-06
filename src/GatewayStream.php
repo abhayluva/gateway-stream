@@ -252,25 +252,4 @@ class GatewayStream{
 	}
 
 	/* ========== End:: Wowza HLS MulitBitrate URL ========== */
-	/* ========== Start:: Wowza Cron Job ========== */
-
-	// public function LiveStreamingCronJob() {
-	// 	$this->LiveStreaming	= new LiveStreaming;
-	// 	$getLivedStreaming = $this->LiveStreaming->GetActiveLiveStreaming();
-	// 	if(!$getLivedStreaming->isEmpty()){
-	// 		foreach ($getLivedStreaming as $key => $value) {
-	// 			$stream_id	= $key;
-	// 			$wowza_id	= $value;
-	// 			$checkStatus = $this->LiveStreamingStatus($wowza_id);
-	// 			if(isset($checkStatus->live_stream->state) && $checkStatus->live_stream->state == 'stopped' ){
-	// 				$this->LiveStreaming->UpdateStreamStatus($stream_id, 0);
-	// 			}
-	// 		}
-	// 		echo "|=|=|=| Live Streaming Is Stopped |=|=|=|";
-	//     }else{
-	//     	echo "|=|=|=| No One Live Streaming Found |=|=|=|";
-	//     }
-	// }
-
-	/* ========== End:: Wowza Cron Job ========== */
 }

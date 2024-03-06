@@ -19,6 +19,30 @@ class GatewayStream{
 
 	/* ========== Start:: Wowza API Functions ========== */
 
+	public function getAllLiveStreams(){
+		$url = $this->wsc_api_baseurl."/live_streams";
+		$header = [
+			"Content-Type:"  	. "application/json",
+			"charset:"			. "utf-8",
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		$server_output = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		$output = json_decode($server_output);
+		return $output;
+	}
+
 	/* Get Live Streaming Detail */
 	public function GetLiveStreaming($streamingId) {
 		$url = $this->wsc_api_baseurl."/live_streams/$streamingId";

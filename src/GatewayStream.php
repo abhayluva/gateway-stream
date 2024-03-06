@@ -2,8 +2,9 @@
 namespace Alphansotech\GatewayStreaming;
 
 class GatewayStream{
+	public $wsc_api_key = '';
 	function __construct(){
-		$wsc_api_key = 'wsc_api_key_detail';
+		$this->wsc_api_key = 'wsc_api_key_detail';
 		$wsc_access_key = 'wsc_access_key_detail';
 	}
 

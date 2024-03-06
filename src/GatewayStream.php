@@ -50,8 +50,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();
@@ -74,8 +75,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();
@@ -98,8 +100,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();
@@ -122,8 +125,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();
@@ -148,8 +152,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();
@@ -174,8 +179,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();

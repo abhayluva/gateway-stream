@@ -5,10 +5,12 @@ class GatewayStream{
 	public $wsc_api_key = '';
 	public $wsc_access_key = '';
 	public $wsc_api_baseurl = '';
-	function __construct($wsc_api_key_id, $wsc_access_key_id){
+	public $auth_token = '';
+	function __construct($wsc_api_key_id, $wsc_access_key_id, $authorization){
 		$this->wsc_api_key = $wsc_api_key_id;
 		$this->wsc_access_key = $wsc_access_key_id;
-		$this->wsc_api_baseurl = 'https://api.video.wowza.com/api/v1.8';
+		$this->wsc_api_baseurl = 'https://api.video.wowza.com/api/v2.0';
+		$this->auth_token = $authorization;
 	}
 
 	function sayHi(){
@@ -23,8 +25,9 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"wsc-api-key:"		. $this->wsc_api_key,
-			"wsc-access-key:"	. $this->wsc_access_key,
+			"Authorization: Bearer". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
 		$ch = curl_init();

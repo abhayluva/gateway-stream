@@ -25,7 +25,7 @@ class GatewayStream{
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
-			"Authorization: Bearer". $this->auth_token
+			"Authorization: Bearer ". $this->auth_token
 			// "wsc-api-key:"		. $this->wsc_api_key,
 			// "wsc-access-key:"	. $this->wsc_access_key,
 		];

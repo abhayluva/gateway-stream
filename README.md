@@ -1,7 +1,7 @@
 This is live streaming library which is based on wowza platform www.wowza.com
 
 1 - install php library
-	- composer require alphansotech/gateway-streaming
+	- composer require alphansotech/gateway-streaming @dev
  
 2 - Get the api access token from wowza platform
 	- https://auth.wowza.com/client/token-management

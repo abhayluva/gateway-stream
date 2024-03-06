@@ -1,6 +1,6 @@
 {
     "name": "alphansotech/gateway-streaming",
-    "description": "This is agateway live streaming library",
+    "description": "This is a gateway live streaming library",
     "type": "library",
     "license": "MIT",
     "autoload": {

@@ -235,7 +235,6 @@ class GatewayStream{
 
 		$result = curl_exec($ch);
 		if (curl_errno($ch)) {
-		    // return curl_error($ch);
 		    return $playurl;
 		}
 		curl_close($ch);

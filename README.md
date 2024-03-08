@@ -18,7 +18,7 @@ This is live streaming library which is based on wowza platform www.wowza.com
 6 - Now you can call eoeza platform any live streaming api with the help of stream_key
 	- ex:- $data->GetLiveStreaming($stream_key)
 
-7 - live streaming method which we have created in library
+7 - live streaming method which is available in library
 
 	- CreateLiveStream($data); /* $data should be json encoded */
  

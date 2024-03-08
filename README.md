@@ -19,6 +19,8 @@ This is live streaming library which is based on wowza platform www.wowza.com
 	- ex:- $data->GetLiveStreaming($stream_key)
 
 7 - live streaming method which we have created in library
+	- CreateLiveStream($data); /* $data should be json encoded */
+ 	- UpdateLiveStream($stream_key, $data); /* $stream_key = id of stream which will get from CreateLiveStream function and $data should be json encoded */
 	- GetLiveStreaming($stream_key); /* Get the details of specific strem */
 	- LiveStreamingStatus($stream_key); /* Get the status of stream ex:- started/stopped */
 	- LiveStreamingStart($stream_key); /* Start the live streaming */
@@ -26,6 +28,58 @@ This is live streaming library which is based on wowza platform www.wowza.com
 	- DeleteLiveStreaming($stream_key); /* Delete any stream which you have created */
 	- LiveStreamingPlayingStatus($stream_key); /* This is only work in wowza api version 1.8 otherwise it will not work */
 	- LiveStreamingPlayer($stream_key);
-	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream */
+	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream | hlsURL is m3u8 file */
  
 8 - to test the live streaming working properly, you can use "Larix Broadcaster" App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets
+
+=> Example of create live stream:
+
+- use Alphansotech\GatewayStreaming\GatewayStream;
+- $data = new GatewayStream(
+        'wsc_api_key', /* optional */
+        'wsc_access_key', /* optional */
+	'api_token' /* required */
+  );
+- $postdata['live_stream'] = [
+        "name"                  => "stream title",
+        "broadcast_location"    => "us_west_oregon",
+        "description"           => "stream description here...",
+        "transcoder_type"       => "transcoded",
+        "billing_mode"          => "pay_as_you_go",
+        "encoder"               => "other_webrtc",
+        "disable_authentication" => true,
+
+        "aspect_ratio_height"   => "720",
+        "aspect_ratio_width"    => "1280",
+        "delivery_method"       => "push",
+        "player_responsive"     => true,
+        "low_latency"           => true,
+    ];
+
+- $response = $data->CreateLiveStream(json_encode($postdata));
+
+=> Example of update live stream:
+
+- use Alphansotech\GatewayStreaming\GatewayStream;
+- $data = new GatewayStream(
+        'wsc_api_key', /* optional */
+        'wsc_access_key', /* optional */
+	'api_token' /* required */
+  );
+- $postdata['live_stream'] = [
+        "name"                  => "stream title",
+        "broadcast_location"    => "us_west_oregon",
+        "description"           => "stream description here...",
+        "transcoder_type"       => "transcoded",
+        "billing_mode"          => "pay_as_you_go",
+        "encoder"               => "other_webrtc",
+        "disable_authentication" => true,
+
+        "aspect_ratio_height"   => "720",
+        "aspect_ratio_width"    => "1280",
+        "delivery_method"       => "push",
+        "player_responsive"     => true,
+        "low_latency"           => true,
+    ];
+
+- $response = $data->UpdateLiveStream('stream_key', json_encode($postdata)); /* stream_key = id of stream which will get from CreateLiveStream function */

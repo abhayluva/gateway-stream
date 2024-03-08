@@ -48,7 +48,7 @@ This is live streaming library which is based on wowza platform www.wowza.com
  
 	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream | hlsURL is m3u8 file */
  
-8 - to test the live streaming working properly, you can use "Larix Broadcaster" App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets
+8 - to test the live streaming working properly, you can use "Larix Broadcaster" mobile App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets
 
 => broadcast_location
 

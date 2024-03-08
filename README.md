@@ -25,6 +25,7 @@ This is live streaming library which is based on wowza platform www.wowza.com
 	- LiveStreamingStatus($stream_key); /* Get the status of stream ex:- started/stopped */
 	- LiveStreamingStart($stream_key); /* Start the live streaming */
 	- LiveStreamingStop($stream_key); /* Stop live streaming */
+ 	- LiveStreamingReset($stream_key); /* Reset live stream */
 	- DeleteLiveStreaming($stream_key); /* Delete any stream which you have created */
 	- LiveStreamingPlayingStatus($stream_key); /* This is only work in wowza api version 1.8 otherwise it will not work */
 	- LiveStreamingPlayer($stream_key);

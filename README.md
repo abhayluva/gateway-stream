@@ -44,6 +44,38 @@ This is live streaming library which is based on wowza platform www.wowza.com
  
 8 - to test the live streaming working properly, you can use "Larix Broadcaster" App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets
 
+=> broadcast_location
+
+- asia_pacific_australia
+
+- asia_pacific_india
+
+- asia_pacific_japan
+
+- asia_pacific_singapore
+
+- asia_pacific_s_korea
+
+- asia_pacific_taiwan
+
+- eu_belgium
+
+- eu_germany
+
+- eu_ireland
+
+- south_america_brazil
+
+- us_central_iowa
+
+- us_east_s_carolina
+
+- us_east_virginia
+
+- us_west_california
+
+- us_west_oregon
+
 => Example of create live stream:
 
 - use Alphansotech\GatewayStreaming\GatewayStream;

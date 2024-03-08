@@ -13,12 +13,34 @@ class GatewayStream{
 		$this->auth_token = $authorization;
 	}
 
-	function sayHi(){
-		return "Hi ".rand(0,1000).' I am '.$this->wsc_api_key;
-	}
-
 	/* ========== Start:: Wowza API Functions ========== */
+	/* Create Live Stream */
+	public function CreateLiveStream($data){
+		/* $data should be json encoded */
+		$url = $this->wsc_api_baseurl."/live_streams";
+		$header = [
+			"Content-Type:"  	. "application/json",
+			"charset:"			. "utf-8",
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
+		];
 
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+		$server_output = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		$output = json_decode($server_output);
+		return $output;
+	}
+	/* Get All Live Streams */
 	public function getAllLiveStreams(){
 		$url = $this->wsc_api_baseurl."/live_streams";
 		$header = [

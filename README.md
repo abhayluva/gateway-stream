@@ -39,6 +39,8 @@ This is live streaming library which is based on wowza platform www.wowza.com
 	- LiveStreamingStop($stream_key); /* Stop live streaming */
  
  	- LiveStreamingReset($stream_key); /* Reset live stream */
+
+        - RegenerateConnectionCode($stream_key) /* Regenrate connection code of live stream which will get from CreateLiveStream function response */
   
 	- DeleteLiveStreaming($stream_key); /* Delete any stream which you have created */
  

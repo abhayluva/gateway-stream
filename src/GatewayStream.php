@@ -41,33 +41,6 @@ class GatewayStream{
 		return $output;
 	}
 
-	/* Update Live Stream */
-	public function UpdateLiveStream($streamingId, $data){
-		/* $data should be json encoded */
-		$url = $this->wsc_api_baseurl."/live_streams/".$streamingId;
-		$header = [
-			"Content-Type:"  	. "application/json",
-			"charset:"			. "utf-8",
-			"Authorization: Bearer ". $this->auth_token
-			// "wsc-api-key:"		. $this->wsc_api_key,
-			// "wsc-access-key:"	. $this->wsc_access_key,
-		];
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-		$server_output = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close ($ch);
-		$output = json_decode($server_output);
-		return $output;
-	}
-
 	/* Get All Live Streams */
 	public function getAllLiveStreams(){
 		$url = $this->wsc_api_baseurl."/live_streams";
@@ -118,9 +91,10 @@ class GatewayStream{
 		return $output;
 	}
 
-	/* Show Live Streaming Status */
-	public function LiveStreamingStatus($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/state";
+	/* Update Live Stream */
+	public function UpdateLiveStream($streamingId, $data){
+		/* $data should be json encoded */
+		$url = $this->wsc_api_baseurl."/live_streams/".$streamingId;
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -132,7 +106,33 @@ class GatewayStream{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+		$server_output = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		$output = json_decode($server_output);
+		return $output;
+	}
+
+	/* Delete Live Streaming */
+	public function DeleteLiveStreaming($streamingId) {
+		$url = $this->wsc_api_baseurl."/live_streams/$streamingId";
+		$header = [
+			"Content-Type:"  	. "application/json",
+			"charset:"			. "utf-8",
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "DELETE");
 		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
@@ -218,9 +218,9 @@ class GatewayStream{
 		return $output;
 	}
 
-	/* Delete Live Streaming */
-	public function DeleteLiveStreaming($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId";
+	/* Regenerate Connection Code */
+	public function RegenerateConnectionCode($streamingId){
+		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/regenerate_connection_code";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -232,7 +232,32 @@ class GatewayStream{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "DELETE");
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		$server_output = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		$output = json_decode($server_output);
+		return $output;
+	}
+
+	/* Show Live Streaming Status */
+	public function LiveStreamingStatus($streamingId) {
+		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/state";
+		$header = [
+			"Content-Type:"  	. "application/json",
+			"charset:"			. "utf-8",
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
 		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 

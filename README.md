@@ -54,16 +54,27 @@ This is live streaming library which is based on wowza platform www.wowza.com
   );
 - $postdata['live_stream'] = [
         "name"                  => "stream title",
+  
         "broadcast_location"    => "us_west_oregon",
+  
         "description"           => "stream description here...",
+  
         "transcoder_type"       => "transcoded",
+  
         "billing_mode"          => "pay_as_you_go",
+  
         "encoder"               => "other_webrtc",
+  
         "disable_authentication" => true,
+  
         "aspect_ratio_height"   => "720",
+  
         "aspect_ratio_width"    => "1280",
+  
         "delivery_method"       => "push",
+  
         "player_responsive"     => true,
+  
         "low_latency"           => true,
     ];
 

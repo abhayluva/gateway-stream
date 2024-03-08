@@ -10,6 +10,7 @@ This is live streaming library which is based on wowza platform www.wowza.com
 	- https://developer.wowza.com/docs/wowza-video/api/video/current/overview/
  
 4 - Add below code at the start of your page where you want to user library
+
 	- use Alphansotech\GatewayStreaming\GatewayStream
  
 5 - Create object of class

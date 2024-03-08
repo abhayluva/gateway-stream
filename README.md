@@ -48,7 +48,6 @@ This is live streaming library which is based on wowza platform www.wowza.com
         "billing_mode"          => "pay_as_you_go",
         "encoder"               => "other_webrtc",
         "disable_authentication" => true,
-
         "aspect_ratio_height"   => "720",
         "aspect_ratio_width"    => "1280",
         "delivery_method"       => "push",
@@ -74,7 +73,6 @@ This is live streaming library which is based on wowza platform www.wowza.com
         "billing_mode"          => "pay_as_you_go",
         "encoder"               => "other_webrtc",
         "disable_authentication" => true,
-
         "aspect_ratio_height"   => "720",
         "aspect_ratio_width"    => "1280",
         "delivery_method"       => "push",

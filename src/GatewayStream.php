@@ -9,7 +9,7 @@ class GatewayStream{
 	function __construct($authorization){
 		// $this->wsc_api_key = $wsc_api_key_id;
 		// $this->wsc_access_key = $wsc_access_key_id;
-		$this->wsc_api_baseurl = 'https://api.video.wowza.com/api/v1.8';
+		$this->wsc_api_baseurl = 'https://api.video.wowza.com/api/v2.0';
 		$this->auth_token = $authorization;
 	}
 

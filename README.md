@@ -76,6 +76,48 @@ This is live streaming library which is based on wowza platform www.wowza.com
 
 - us_west_oregon
 
+=> encoder
+
+- other_webrtc
+
+- media_ds
+
+- axis
+
+- epiphan
+
+- hauppauge
+
+- jvc
+
+- live_u
+
+- matrox
+
+- newtek_tricaster
+
+- osprey
+
+- sony
+
+- telestream_wirecast
+
+- teradek_cube
+
+- vmix
+
+- x_split
+
+- ipcamera
+
+- other_rtmp
+
+- other_rtsp
+
+- other_srt
+
+- other_udp
+
 => Example of create live stream:
 
 - use Alphansotech\GatewayStreaming\GatewayStream;

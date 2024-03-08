@@ -6,9 +6,9 @@ class GatewayStream{
 	public $wsc_access_key = '';
 	public $wsc_api_baseurl = '';
 	public $auth_token = '';
-	function __construct($wsc_api_key_id, $wsc_access_key_id, $authorization){
-		$this->wsc_api_key = $wsc_api_key_id;
-		$this->wsc_access_key = $wsc_access_key_id;
+	function __construct($authorization){
+		// $this->wsc_api_key = $wsc_api_key_id;
+		// $this->wsc_access_key = $wsc_access_key_id;
 		$this->wsc_api_baseurl = 'https://api.video.wowza.com/api/v1.8';
 		$this->auth_token = $authorization;
 	}
@@ -40,6 +40,7 @@ class GatewayStream{
 		$output = json_decode($server_output);
 		return $output;
 	}
+
 	/* Update Live Stream */
 	public function UpdateLiveStream($streamingId, $data){
 		/* $data should be json encoded */
@@ -66,6 +67,7 @@ class GatewayStream{
 		$output = json_decode($server_output);
 		return $output;
 	}
+
 	/* Get All Live Streams */
 	public function getAllLiveStreams(){
 		$url = $this->wsc_api_baseurl."/live_streams";
@@ -169,6 +171,31 @@ class GatewayStream{
 	/* Stop Live Streaming */
 	public function LiveStreamingStop($streamingId) {
 		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/stop";
+		$header = [
+			"Content-Type:"  	. "application/json",
+			"charset:"			. "utf-8",
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		$server_output = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		$output = json_decode($server_output);
+		return $output;
+	}
+
+	/* Reset Live Stream */
+	public function LiveStreamingReset($streamingId){
+		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/reset";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",

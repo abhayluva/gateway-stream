@@ -20,7 +20,7 @@ This is live streaming library which is based on wowza platform www.wowza.com
 
 7 - live streaming method which we have created in library
 	- CreateLiveStream($data); /* $data should be json encoded */
- 	- UpdateLiveStream($stream_key, $data); /* $stream_key = id of stream which will get from CreateLiveStream function and $data should be json encoded */
+ 	- UpdateLiveStream($stream_key, $data); /* $stream_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
 	- GetLiveStreaming($stream_key); /* Get the details of specific strem */
 	- LiveStreamingStatus($stream_key); /* Get the status of stream ex:- started/stopped */
 	- LiveStreamingStart($stream_key); /* Start the live streaming */
@@ -48,7 +48,6 @@ This is live streaming library which is based on wowza platform www.wowza.com
         "billing_mode"          => "pay_as_you_go",
         "encoder"               => "other_webrtc",
         "disable_authentication" => true,
-
         "aspect_ratio_height"   => "720",
         "aspect_ratio_width"    => "1280",
         "delivery_method"       => "push",
@@ -74,7 +73,6 @@ This is live streaming library which is based on wowza platform www.wowza.com
         "billing_mode"          => "pay_as_you_go",
         "encoder"               => "other_webrtc",
         "disable_authentication" => true,
-
         "aspect_ratio_height"   => "720",
         "aspect_ratio_width"    => "1280",
         "delivery_method"       => "push",
@@ -82,4 +80,4 @@ This is live streaming library which is based on wowza platform www.wowza.com
         "low_latency"           => true,
     ];
 
-- $response = $data->UpdateLiveStream('stream_key', json_encode($postdata)); /* stream_key = id of stream which will get from CreateLiveStream function */
+- $response = $data->UpdateLiveStream('stream_key', json_encode($postdata)); /* stream_key = id of stream which will get from CreateLiveStream function response */

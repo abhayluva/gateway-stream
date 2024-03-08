@@ -19,16 +19,27 @@ This is live streaming library which is based on wowza platform www.wowza.com
 	- ex:- $data->GetLiveStreaming($stream_key)
 
 7 - live streaming method which we have created in library
+
 	- CreateLiveStream($data); /* $data should be json encoded */
+ 
  	- UpdateLiveStream($stream_key, $data); /* $stream_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
+  
 	- GetLiveStreaming($stream_key); /* Get the details of specific strem */
+ 
 	- LiveStreamingStatus($stream_key); /* Get the status of stream ex:- started/stopped */
+ 
 	- LiveStreamingStart($stream_key); /* Start the live streaming */
+ 
 	- LiveStreamingStop($stream_key); /* Stop live streaming */
+ 
  	- LiveStreamingReset($stream_key); /* Reset live stream */
+  
 	- DeleteLiveStreaming($stream_key); /* Delete any stream which you have created */
+ 
 	- LiveStreamingPlayingStatus($stream_key); /* This is only work in wowza api version 1.8 otherwise it will not work */
+ 
 	- LiveStreamingPlayer($stream_key);
+ 
 	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream | hlsURL is m3u8 file */
  
 8 - to test the live streaming working properly, you can use "Larix Broadcaster" App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets

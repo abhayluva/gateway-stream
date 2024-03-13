@@ -44,6 +44,8 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 5 - create a laravel model for databse connection
 
  	1 - php artisan make:model LiveStreaming
+
+  	2 - add this to model file "protected $primaryKey = 'stream_id';" /* path app/models/filename */
  
 5 - Add below code at the start of your page where you want to user library
 

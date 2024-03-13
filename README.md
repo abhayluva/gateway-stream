@@ -211,7 +211,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   
         "encoder"               => "other_webrtc",
 
-	"stream_price"          => "12.20",
+ 	"stream_price"          => "12.20",
   
         "price_currency"        => "USD",
   
@@ -245,7 +245,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   
         "encoder"               => "other_webrtc",
 
-	"stream_price"          => "12.20",
+ 	"stream_price"          => "12.20",
   
         "price_currency"        => "USD",
   

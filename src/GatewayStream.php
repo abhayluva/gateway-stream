@@ -26,19 +26,74 @@ class GatewayStream{
 			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
 
+        $postdata['live_stream'] = [
+            "name"                  => $data['name'],
+            "broadcast_location"    => $data['broadcast_location'],
+            "description"           => $data['description'],
+            "transcoder_type"       => "transcoded",
+            "billing_mode"          => "pay_as_you_go",
+            "encoder"               => $data['encoder'],    
+            "disable_authentication" => true,
+            "aspect_ratio_height"   => "720",
+            "aspect_ratio_width"    => "1280",
+            "delivery_method"       => "push",
+            "player_responsive"     => true,
+            "low_latency"           => true,
+            "recording"             => true
+        ];
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));
 
 		$server_output = curl_exec($ch);
 		$err = curl_error($ch);
 		curl_close ($ch);
 		$output = json_decode($server_output);
-		return $output;
+		
+        if(isset($output->live_stream)) {
+            $outputData = $output->live_stream;
+            $input = [
+                'wowza_id' => $outputData->id,
+                'stream_title' => $outputData->name,
+                'description' => $outputData->description,
+                'state' => $outputData->state,
+                'billing_mode' => $outputData->billing_mode,
+                'broadcast_location' => $outputData->broadcast_location,
+                'recording' => $outputData->recording,
+                'encoder' => $outputData->encoder,
+                'delivery_method' => $outputData->delivery_method,
+                'sdp_url' => $outputData->source_connection_information->sdp_url,
+                'application_name' => $outputData->source_connection_information->application_name,
+                'stream_name' => $outputData->source_connection_information->stream_name,
+                'hls_playback_url' => $outputData->hls_playback_url,
+                'stream_price' => $data['stream_price'],
+                'price_currency' => $data['price_currency'],
+                'image' => $data['image'],
+                'player_id' => $outputData->player_id,
+                'stream_date' => $data['stream_date'],
+                'stream_time' => $data['stream_time']
+            ];
+
+            $insert = LiveStreaming::create($input);
+            if(isset($insert->wowza_id)) {
+				$msg = "Live Streaming create successully.";
+                return ['status' => 1, 'message' => $msg];
+			}else{
+				$msg = 'Live Streaming not crete please try again.';
+				return ['status' => 0, 'message' => $msg];
+			}
+        }else if(isset($output->meta)) {
+            $msg = $output->meta;
+            return ['status' => 0, 'message' => $msg->message];
+        }else{
+            $msg = 'Live Streaming not crete please try again.';
+            return ['status' => 0, 'message' => $msg];
+        }
 	}
 
 	/* Get All Live Streams */

@@ -7,6 +7,11 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 2 - Get the api access token from wowza platform
 
 	- https://auth.wowza.com/client/token-management
+
+3 - add below global variables to .env file
+
+	- LIVE_STREAMING_URL = "https://api.video.wowza.com/api/v2.0"
+ 	- LIVE_STREAMING_AUTH = "your api access token"
  
 3 - We have used live streaming api of wowza platform
 
@@ -88,25 +93,25 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 	- CreateLiveStream($data); /* $data should be json encoded */
  
- 	- UpdateLiveStream($stream_key, $data); /* $stream_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
+ 	- UpdateLiveStream($wowza_id, $data); /* $stream_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
   
-	- GetLiveStreaming($stream_key); /* Get the details of specific strem */
+	- GetLiveStreaming($wowza_id); /* Get the details of specific strem */
  
-	- LiveStreamingStatus($stream_key); /* Get the status of stream ex:- started/stopped */
+	- LiveStreamingStatus($wowza_id); /* Get the status of stream ex:- started/stopped */
  
-	- LiveStreamingStart($stream_key); /* Start the live streaming */
+	- LiveStreamingStart($wowza_id); /* Start the live streaming */
  
-	- LiveStreamingStop($stream_key); /* Stop live streaming */
+	- LiveStreamingStop($wowza_id); /* Stop live streaming */
  
- 	- LiveStreamingReset($stream_key); /* Reset live stream */
+ 	- LiveStreamingReset($wowza_id); /* Reset live stream */
 
-        - RegenerateConnectionCode($stream_key) /* Regenrate connection code of live stream which will get from CreateLiveStream function response */
+        - RegenerateConnectionCode($wowza_id) /* Regenrate connection code of live stream which will get from CreateLiveStream function response */
   
-	- DeleteLiveStreaming($stream_key); /* Delete any stream which you have created */
+	- DeleteLiveStreaming($wowza_id); /* Delete any stream which you have created */
  
-	- LiveStreamingPlayingStatus($stream_key); /* This is only work in wowza api version 1.8 otherwise it will not work */
+	- LiveStreamingPlayingStatus($wowza_id); /* This is only work in wowza api version 1.8 otherwise it will not work */
  
-	- LiveStreamingPlayer($stream_key);
+	- LiveStreamingPlayer($wowza_id);
  
 	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream | hlsURL is m3u8 file */
  
@@ -193,7 +198,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 	'api_token' /* required */
   );
 - $postdata['live_stream'] = [
-- 
+ 
         "name"                  => "stream title",
   
         "broadcast_location"    => "us_west_oregon",
@@ -205,18 +210,17 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
         "billing_mode"          => "pay_as_you_go",
   
         "encoder"               => "other_webrtc",
+
+  	"stream_price"          => "12.20",
   
-        "disable_authentication" => true,
+        "price_currency"        => "USD",
   
-        "aspect_ratio_height"   => "720",
+        "image"                 => "image path",
   
-        "aspect_ratio_width"    => "1280",
+        "stream_date"           => "2024-03-13",
   
-        "delivery_method"       => "push",
+        "stream_time"           => "10:20:00"
   
-        "player_responsive"     => true,
-  
-        "low_latency"           => true,
     ];
 
 - $response = $data->CreateLiveStream(json_encode($postdata));
@@ -240,18 +244,17 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
         "billing_mode"          => "pay_as_you_go",
   
         "encoder"               => "other_webrtc",
+
+  	"stream_price"          => "12.20",
   
-        "disable_authentication" => true,
+        "price_currency"        => "USD",
   
-        "aspect_ratio_height"   => "720",
+        "image"                 => "image path",
   
-        "aspect_ratio_width"    => "1280",
+        "stream_date"           => "2024-03-13",
   
-        "delivery_method"       => "push",
+        "stream_time"           => "10:20:00"
   
-        "player_responsive"     => true,
-  
-        "low_latency"           => true,
     ];
 
 - $response = $data->UpdateLiveStream('stream_key', json_encode($postdata)); /* stream_key = id of stream which will get from CreateLiveStream function response */

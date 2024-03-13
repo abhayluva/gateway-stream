@@ -38,7 +38,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
       	- $table->string('image')->default(null);
 		- $table->string('player_id')->default(null);
   		- $table->date('stream_date')->default(null);
-         - $table->time('stream_time')->default(null);
+         	- $table->time('stream_time')->default(null);
 
   	3 - now run "php artisan migrate" and "live_streaming" will create in your database
 

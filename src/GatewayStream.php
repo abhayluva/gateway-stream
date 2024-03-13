@@ -17,8 +17,8 @@ class GatewayStream{
 	}
 
 	/* ========== Start:: Wowza API Functions ========== */
-
-	/* Search Live stream by stream title */
+    
+    /* Search Live stream by stream title */
     public function SearchLiveStream($txt) {
         $data = LiveStreaming::where('stream_title', $txt)->get();
         if(count($data) > 0){
@@ -455,25 +455,25 @@ class GatewayStream{
                 if($streamStatus['status'] == 1 && isset($streamStatus['data']['live_stream']) && $streamStatus['data']['live_stream']['state'] == 'stopped'){
                     return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
                 }
-                if(isset($streamStatus['live_stream']['state'])){
-                    if($streamStatus['live_stream']['state'] == 'started' || $streamStatus['live_stream']['state'] == 'starting' ){
+                if(isset($streamStatus['data']['live_stream']['state'])){
+                    if($streamStatus['data']['live_stream']['state'] == 'started' || $streamStatus['data']['live_stream']['state'] == 'starting' ){
                         do {
                             $streamStatusCheck = $this->LiveStreamingStatus($user_id,$wowza_id);
                         } while ($streamStatusCheck['status'] == 1 && isset($streamStatusCheck['data']['live_stream']) && $streamStatusCheck['data']['live_stream']['state'] != 'started');
                         $update = LiveStreaming::where(['user_id' => $user_id, 'wowza_id' => $wowza_id])->update(['stream_status' => 1, 'advertisement_status' => 0]);
 
-                        return ['status' => 1, 'message' => 'Live stream started', 'data' => ['user_id' => $user_id, 'stream_data' => $getData]];
+                        return ['status' => 1, 'message' => 'Live stream published', 'data' => ['user_id' => $user_id, 'stream_data' => $getData['data']]];
                     }else{
-                        return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+                        return ['status' => 0, 'message' => 'Live Streaming is not started please try again.3'];
                     }
                 }else{
-                    return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+                    return ['status' => 0, 'message' => 'Live Streaming is not started please try again.2'];
                 }
             }else if(isset($getStream->meta)) {
                 $streamingData = $getStream->meta;
                 return ['status' => 0, 'message' => $streamingData->message];
             } else {
-                return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+                return ['status' => 0, 'message' => 'Live Streaming is not started please try again.1'];
             }
         }else{
             return ['status' => 0, 'message' => 'Live Streaming details not found.'];

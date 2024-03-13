@@ -9,9 +9,7 @@ class GatewayStream{
 	public $wsc_api_baseurl = '';
 	public $auth_token = '';
     public $livestream = '';
-	function __construct($authorization){
-		// $this->wsc_api_key = $wsc_api_key_id;
-		// $this->wsc_access_key = $wsc_access_key_id;
+	function __construct(){
 		$this->wsc_api_baseurl = env('LIVE_STREAMING_URL');
 		$this->auth_token = env('LIVE_STREAMING_AUTH');
 

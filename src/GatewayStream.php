@@ -41,7 +41,7 @@ class GatewayStream{
 		];
 
         $postdata['live_stream'] = [
-            "name"                  => $data['name'],
+            "name"                  => $data['sname'],
             "broadcast_location"    => $data['broadcast_location'],
             "description"           => $data['description'],
             "transcoder_type"       => "transcoded",
@@ -168,7 +168,7 @@ class GatewayStream{
             ];
 
             $postdata['live_stream'] = [
-                "name"                  => $data['name'],
+                "name"                  => $data['sname'],
                 "description"           => $data['description'],
                 "transcoder_type"       => "transcoded",
                 "billing_mode"          => "pay_as_you_go",

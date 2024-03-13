@@ -161,8 +161,6 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 - use Alphansotech\GatewayStreaming\GatewayStream;
 - $data = new GatewayStream(
-        'wsc_api_key', /* optional */
-        'wsc_access_key', /* optional */
 	'api_token' /* required */
   );
 - $postdata['live_stream'] = [
@@ -198,8 +196,6 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 - use Alphansotech\GatewayStreaming\GatewayStream;
 - $data = new GatewayStream(
-        'wsc_api_key', /* optional */
-        'wsc_access_key', /* optional */
 	'api_token' /* required */
   );
 - $postdata['live_stream'] = [

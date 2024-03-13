@@ -139,29 +139,7 @@ class GatewayStream{
             return ['status' => 1, 'message' => 'Live stream data found.', 'data' =>  json_decode(json_encode($data), true)];
         }else{
             return ['status' => 0, 'message' => 'Live stream data not found.'];
-        }
-
-		// $url = $this->wsc_api_baseurl."/live_streams/$wowza_id";
-		// $header = [
-		// 	"Content-Type:"  	. "application/json",
-		// 	"charset:"			. "utf-8",
-		// 	"Authorization: Bearer ". $this->auth_token
-		// 	// "wsc-api-key:"		. $this->wsc_api_key,
-		// 	// "wsc-access-key:"	. $this->wsc_access_key,
-		// ];
-
-		// $ch = curl_init();
-		// curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		// curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
-		// curl_setopt($ch, CURLOPT_URL,$url);
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
-		// $server_output = curl_exec($ch);
-		// $err = curl_error($ch);
-		// curl_close ($ch);
-		// $output = json_decode($server_output);
-		// return $output;
+        }	
 	}
 
 	/* Update Live Stream */
@@ -245,7 +223,7 @@ class GatewayStream{
 	/* Delete Live Streaming */
 	public function DeleteLiveStreaming($user_id, $wowza_id) {
         $getData = $this->GetLiveStreaming($user_id, $wowza_id);
-        if(!empty($getData)){
+        if(!empty($getData) && $getData['data']['live_stream']['status'] == 'stopped'){
             $url = $this->wsc_api_baseurl."/live_streams/$wowza_id";
             $header = [
                 "Content-Type:"  	. "application/json",
@@ -269,12 +247,14 @@ class GatewayStream{
             
             if($output == null){
                 $delete = LiveStreaming::where(['user_id' => $user_id, 'wowza_id' => $wowza_id])->delete();
-                return ['status' => 1, 'message' => 'Live streaming delete successfully.'];
+                return ['status' => 1, 'message' => 'Live stream remove successfully.'];
             }else{
                 return ['status' => 1, 'message' => $output->meta->message];
             }
+        }else if(!empty($getData) && $getData['data']['live_stream']['status'] == 'started'){
+            return ['status' => 0, 'message' => 'Live stream is started, please stop first and then remove.'];
         }else{
-            return ['status' => 0, 'message' => 'Live Streaming details not found.'];
+            return ['status' => 0, 'message' => 'Live stream details not found.'];
         }
 	}
 
@@ -344,7 +324,7 @@ class GatewayStream{
             curl_close ($ch);
             $output = json_decode($server_output);
             if(isset($output->live_stream) && $output->live_stream->state == 'stopped'){
-                $update = LiveStreaming::where(['user_id' => $user_id, 'wowza_id' => $wowza_id])->update(['state' => 'stopped']);
+                $update = LiveStreaming::where(['user_id' => $user_id, 'wowza_id' => $wowza_id])->update(['state' => 'stopped', 'stream_status' => 0, 'advertisement_status' => 0]);
                 return ['status' => 1, 'message' => 'Live stream stopped'];
             }else{
                 return ['status' => 0, 'message' => $output->meta->message];
@@ -394,7 +374,7 @@ class GatewayStream{
 	}
 
 	/* Regenerate Connection Code */
-	/*public function RegenerateConnectionCode($user_id, $wowza_id){
+	public function RegenerateConnectionCode($user_id, $wowza_id){
         $getData = $this->GetLiveStreaming($user_id, $wowza_id);
         if(!empty($getData)){
             $url = $this->wsc_api_baseurl."/live_streams/$wowza_id/regenerate_connection_code";
@@ -421,7 +401,7 @@ class GatewayStream{
         }else{
             return ['status' => 0, 'message' => 'Live Streaming details not found.'];
         }
-	}*/
+	}
 
 	/* Show Live Streaming Status */
 	public function LiveStreamingStatus($user_id, $wowza_id) {
@@ -453,6 +433,66 @@ class GatewayStream{
             return ['status' => 0, 'message' => 'Live Streaming details not found.'];
         }
 	}
+
+    /* Publish Live Streaming */
+    public function LiveStreamingPublish($user_id, $wowza_id){
+        $getData = $this->GetLiveStreaming($user_id, $wowza_id);
+        if(!empty($getData)){
+            $getStream = $this->GetWowzaSingleStreaming($wowza_id);
+            if(isset($getStream->live_stream)) {
+                $streamStatus = $this->LiveStreamingStatus($user_id, $wowza_id);
+                if($streamStatus['status'] == 1 && isset($streamStatus['data']['live_stream']) && $streamStatus['data']['live_stream']['state'] == 'stopped'){
+                    return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+                }
+                if(isset($streamStatus['live_stream']['state'])){
+                    if($streamStatus['live_stream']['state'] == 'started' || $streamStatus['live_stream']['state'] == 'starting' ){
+                        do {
+                            $streamStatusCheck = $this->LiveStreamingStatus($user_id,$wowza_id);
+                        } while ($streamStatusCheck['status'] == 1 && isset($streamStatusCheck['data']['live_stream']) && $streamStatusCheck['data']['live_stream']['state'] != 'started');
+                        $update = LiveStreaming::where(['user_id' => $user_id, 'wowza_id' => $wowza_id])->update(['stream_status' => 1, 'advertisement_status' => 0]);
+
+                        return ['status' => 1, 'message' => 'Live stream started', 'data' => ['user_id' => $user_id, 'stream_data' => $getData]];
+                    }else{
+                        return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+                    }
+                }else{
+                    return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+                }
+            }else if(isset($getStream->meta)) {
+                $streamingData = $getStream->meta;
+                return ['status' => 0, 'message' => $streamingData->message];
+            } else {
+                return ['status' => 0, 'message' => 'Live Streaming is not started please try again.'];
+            }
+        }else{
+            return ['status' => 0, 'message' => 'Live Streaming details not found.'];
+        }
+    }
+
+    /* Get Wowza Single Streaming */
+    public function GetWowzaSingleStreaming($wowza_id){
+        $url = $this->wsc_api_baseurl."/live_streams/$wowza_id";
+		$header = [
+			"Content-Type:"  	. "application/json",
+			"charset:"			. "utf-8",
+			"Authorization: Bearer ". $this->auth_token
+			// "wsc-api-key:"		. $this->wsc_api_key,
+			// "wsc-access-key:"	. $this->wsc_access_key,
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		$server_output = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close ($ch);
+		$output = json_decode($server_output);
+		return $output;
+    }
 
 	/* ========== End:: Wowza API Functions ========== */
 	/* ========== Start:: Wowza Streaming Publish Status ========== */

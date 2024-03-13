@@ -296,18 +296,17 @@ class GatewayStream{
             curl_close ($ch);
             $output = json_decode($server_output);
             if(isset($output->live_stream) && $output->live_stream->state == 'starting'){
+                $update = LiveStreaming::where('wowza_id', $wowza_id)->update(['state' => 'started']);
                 do {
                     $streamStatus = $this->LiveStreamingStatus($wowza_id);
                 } while ($streamStatus['status'] == 1 && isset($streamStatus['data']['live_stream']) && $streamStatus['data']['live_stream']['state'] != 'started');
-
-                $update = LiveStreaming::where('wowza_id', $wowza_id)->update(['state' => 'started']);
 
                 return ['status' => 1, 'message' => 'Live stream started'];
             }else{
                 return ['status' => 0, 'message' => $output->meta->message];
             }
         }else if($streamData['status'] == 1 && isset($streamData['data']['state']) && $streamData['data']['state'] == 'started'){
-            return ['status' => 0, 'message' => 'Live starem already started.'];
+            return ['status' => 2, 'message' => 'Live starem already started.'];
         }else{
             return ['status' => 0, 'message' => 'Something went wrong please try again.'];
         }
@@ -350,31 +349,45 @@ class GatewayStream{
 
 	/* Reset Live Stream */
 	public function LiveStreamingReset($wowza_id){
-		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id/reset";
-		$header = [
-			"Content-Type:"  	. "application/json",
-			"charset:"			. "utf-8",
-			"Authorization: Bearer ". $this->auth_token
-			// "wsc-api-key:"		. $this->wsc_api_key,
-			// "wsc-access-key:"	. $this->wsc_access_key,
-		];
+        $streamData = $this->GetLiveStreaming($wowza_id);
+        if($streamData['status'] == 1 && isset($streamData['data']['state']) && $streamData['data']['state'] == 'started'){
+            $url = $this->wsc_api_baseurl."/live_streams/$wowza_id/reset";
+            $header = [
+                "Content-Type:"  	. "application/json",
+                "charset:"			. "utf-8",
+                "Authorization: Bearer ". $this->auth_token
+                // "wsc-api-key:"		. $this->wsc_api_key,
+                // "wsc-access-key:"	. $this->wsc_access_key,
+            ];
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-		$server_output = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close ($ch);
-		$output = json_decode($server_output);
-		return $output;
+            $server_output = curl_exec($ch);
+            $err = curl_error($ch);
+            curl_close ($ch);
+            $output = json_decode($server_output);
+            
+            if(isset($output->live_stream) && $output->live_stream->state == 'resetting'){
+                do {
+                    $streamStatus = $this->LiveStreamingStatus($wowza_id);
+                } while ($streamStatus['status'] == 1 && isset($streamStatus['data']['live_stream']) && $streamStatus['data']['live_stream']['state'] != 'started');
+
+                return ['status' => 1, 'message' => 'Live stream reset'];
+            }else{
+                return ['status' => 0, 'message' => $output->meta->message]; 
+            }
+        }else{
+            return ['status' => 0, 'message' => 'Live stream stopped, please start live stream to reset a stream'];
+        }
 	}
 
 	/* Regenerate Connection Code */
-	public function RegenerateConnectionCode($wowza_id){
+	/*public function RegenerateConnectionCode($wowza_id){
 		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id/regenerate_connection_code";
 		$header = [
 			"Content-Type:"  	. "application/json",
@@ -396,7 +409,7 @@ class GatewayStream{
 		curl_close ($ch);
 		$output = json_decode($server_output);
 		return $output;
-	}
+	}*/
 
 	/* Show Live Streaming Status */
 	public function LiveStreamingStatus($wowza_id) {

@@ -95,6 +95,8 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 8 - live streaming method which is available in library
 
+	- SearchLiveStream(text); /* Search Live stream by stream title */
+
 	- CreateLiveStream($data); /* $data should in array format */
  
  	- UpdateLiveStream($user_id, $wowza_id, $data); /* $wowoza_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */

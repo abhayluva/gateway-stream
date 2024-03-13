@@ -98,20 +98,26 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 	- SearchLiveStream(text); /* Search Live stream by stream title */
 
 	- CreateLiveStream($data); /* $data should in array format */
+
+ 	- getAllLiveStreams($user_id); /* Get all live streams details */
+
+ 	- GetLiveStreaming($user_id, $wowza_id); /* Get the details of specific strem */
  
  	- UpdateLiveStream($user_id, $wowza_id, $data); /* $wowoza_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
   
-	- GetLiveStreaming($user_id, $wowza_id); /* Get the details of specific strem */
- 
-	- LiveStreamingStatus($user_id, $wowza_id); /* Get the status of stream ex:- started/stopped */
- 
-	- LiveStreamingStart($user_id, $wowza_id); /* Start the live streaming */
+	- DeleteLiveStreaming($user_id, $wowza_id); /* Delete any stream which you have created */
+
+ 	- LiveStreamingStart($user_id, $wowza_id); /* Start the live streaming */
  
 	- LiveStreamingStop($user_id, $wowza_id); /* Stop live streaming */
  
  	- LiveStreamingReset($user_id, $wowza_id); /* Reset live stream */
-  
-	- DeleteLiveStreaming($user_id, $wowza_id); /* Delete any stream which you have created */
+ 
+	- LiveStreamingStatus($user_id, $wowza_id); /* Get the status of stream ex:- started/stopped */
+ 
+	- LiveStreamingPublish($user_id, $wowza_id);
+
+  	- LiveStreamingStatistics($user_id, $wowza_id);
  
 	- LiveStreamingPlayingStatus($user_id, $wowza_id); /* This is only work in wowza api version 1.8 otherwise it will not work */
  

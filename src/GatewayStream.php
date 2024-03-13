@@ -17,6 +17,17 @@ class GatewayStream{
 	}
 
 	/* ========== Start:: Wowza API Functions ========== */
+
+	/* Search Live stream by stream title */
+    public function SearchLiveStream($txt) {
+        $data = LiveStreaming::where('stream_title', $txt)->get();
+        if(count($data) > 0){
+            return ['status' => 1, 'message' => 'Live stream found', 'data' => json_decode(json_encode($data), true)];
+        }else{
+            return ['status' => 0, 'message' => 'Live stream not found'];
+        }
+	}
+
 	/* Create Live Stream */
 	public function CreateLiveStream($data){
 		/* $data should be json encoded */

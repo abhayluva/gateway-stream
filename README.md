@@ -40,7 +40,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   		- $table->date('stream_date')->default(null);
          	- $table->time('stream_time')->default(null);
 
-  	3 - now run "php artisan migrate" and "live_streaming" will create in your database
+  	3 - now run "php artisan migrate" and "live_streaming" table will create in your database
 
  
 4 - Add below code at the start of your page where you want to user library

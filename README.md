@@ -40,6 +40,10 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
   	3 - now run "php artisan migrate" and "live_streaming" table will create in your database
 
+
+5 - create a laravel model for databse connection
+
+ 	1 - php artisan make:model LiveStreaming
  
 5 - Add below code at the start of your page where you want to user library
 

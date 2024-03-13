@@ -43,19 +43,19 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   	3 - now run "php artisan migrate" and "live_streaming" table will create in your database
 
  
-4 - Add below code at the start of your page where you want to user library
+5 - Add below code at the start of your page where you want to user library
 
 	- use Alphansotech\GatewayStreaming\GatewayStream
  
-5 - Create object of class
+6 - Create object of class
 
 	- $data = new GatewayStream(api_access_token)
  
-6 - Now you can call eoeza platform any live streaming api with the help of stream_key
+7 - Now you can call eoeza platform any live streaming api with the help of stream_key
 
 	- ex:- $data->GetLiveStreaming($stream_key)
 
-7 - live streaming method which is available in library
+8 - live streaming method which is available in library
 
 	- CreateLiveStream($data); /* $data should be json encoded */
  
@@ -81,7 +81,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
  
 	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream | hlsURL is m3u8 file */
  
-8 - to test the live streaming working properly, you can use "Larix Broadcaster" mobile App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets
+9 - to test the live streaming working properly, you can use "Larix Broadcaster" mobile App or you have to implement wowza player in your CMS and after that you have to use HLS link "hls_playback_url" which you will get in "create stream api" and after recording stream it will show in wowza dashboard assets
 
 => broadcast_location
 

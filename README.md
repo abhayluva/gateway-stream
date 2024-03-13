@@ -12,15 +12,15 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 	- https://developer.wowza.com/docs/wowza-video/api/video/current/overview/
 
-3 - create table live_streaming and add fields
+4 - create table live_streaming and add fields
 
-	- php artisan make:migration create_live_streaming_table
+	1 - php artisan make:migration create_live_streaming_table
 
- 	- add below fields inside "up()" function to created table 
-  		- $table->increments('stream_id');
-    	- $table->string('wowza_id');
-      	- $table->string('stream_title');
-		- $table->string('description');
+ 	2 - add below fields inside "up()" function to created table 
+  		- $table->increments('stream_id'); /* auto increment id */
+    	- $table->string('wowza_id')->default(null);
+      	- $table->string('stream_title')->default(null);
+		- $table->string('description')->default(null);
   		- $table->string('state');
     	- $table->string('billing_mode');
       	- $table->string('broadcast_location');
@@ -33,6 +33,14 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
     	- $table->string('hls_playback_url');
       	- $table->string('created_at');
 		- $table->string('updated_at');
+  		- $table->string('stream_price')->default(null);
+    		- $table->string('price_currency')->default(null);
+      		- $table->string('image')->default(null);
+		- $table->string('player_id')->default(null);
+  		- $table->date('stream_date')->default(null);
+            	- $table->time('stream_time')->default(null);
+
+  	3 - now run "php artisan migrate" and "live_streaming" will create in your database
 
  
 4 - Add below code at the start of your page where you want to user library

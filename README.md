@@ -17,7 +17,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 	1 - php artisan make:migration create_live_streaming_table
 
  	2 - add below fields inside "up()" function to created table 
-		- $table->increments('stream_id'); /* auto increment id */
+		- $table->id('stream_id'); /* auto increment id */
  		- $table->string('wowza_id')->default(null);
   		- $table->string('stream_title')->default(null);
 		- $table->string('description')->default(null);

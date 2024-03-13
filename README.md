@@ -104,8 +104,6 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 	- LiveStreamingStop($wowza_id); /* Stop live streaming */
  
  	- LiveStreamingReset($wowza_id); /* Reset live stream */
-
-        - RegenerateConnectionCode($wowza_id) /* Regenrate connection code of live stream which will get from CreateLiveStream function response */
   
 	- DeleteLiveStreaming($wowza_id); /* Delete any stream which you have created */
  

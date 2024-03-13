@@ -22,15 +22,15 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   		- $table->string('stream_title')->default(null);
 		- $table->string('description')->default(null);
   		- $table->string('state');
- 		- $table->string('billing_mode');
-   		- $table->string('broadcast_location');
-		- $table->boolean('recording'); /* for true or false value */
-  		- $table->string('encoder');
-  		- $table->string('delivery_method');
- 		- $table->string('sdp_url');
-		- $table->string('application_name');
-  		- $table->string('stream_name');
-  		- $table->string('hls_playback_url');
+ 		- $table->string('billing_mode')->default(null);
+   		- $table->string('broadcast_location')->default(null);
+		- $table->boolean('recording')->default(0); /* for true or false value */
+  		- $table->string('encoder')->default(null);
+  		- $table->string('delivery_method')->default(null);
+ 		- $table->string('sdp_url')->default(null);
+		- $table->string('application_name')->default(null);
+  		- $table->string('stream_name')->default(null);
+  		- $table->string('hls_playback_url')->default(null);
 		- $table->string('stream_price')->default(null);
   		- $table->string('price_currency')->default(null);
    		- $table->string('image')->default(null);

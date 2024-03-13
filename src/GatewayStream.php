@@ -1,16 +1,21 @@
 <?php
 namespace Alphansotech\GatewayStreaming;
+
 use App\Models\LiveStreaming;
+
 class GatewayStream{
 	public $wsc_api_key = '';
 	public $wsc_access_key = '';
 	public $wsc_api_baseurl = '';
 	public $auth_token = '';
+    public $livestream = '';
 	function __construct($authorization){
 		// $this->wsc_api_key = $wsc_api_key_id;
 		// $this->wsc_access_key = $wsc_access_key_id;
-		$this->wsc_api_baseurl = 'https://api.video.wowza.com/api/v2.0';
-		$this->auth_token = $authorization;
+		$this->wsc_api_baseurl = env('LIVE_STREAMING_URL');
+		$this->auth_token = env('LIVE_STREAMING_AUTH');
+
+        $this->livestream = new LiveStreaming;
 	}
 
 	/* ========== Start:: Wowza API Functions ========== */
@@ -98,58 +103,72 @@ class GatewayStream{
 
 	/* Get All Live Streams */
 	public function getAllLiveStreams(){
-		$url = $this->wsc_api_baseurl."/live_streams";
-		$header = [
-			"Content-Type:"  	. "application/json",
-			"charset:"			. "utf-8",
-			"Authorization: Bearer ". $this->auth_token
-			// "wsc-api-key:"		. $this->wsc_api_key,
-			// "wsc-access-key:"	. $this->wsc_access_key,
-		];
+        $data = LiveStreaming::get();
+        if(!empty($data)){
+            return ['status' => 1, 'message' => 'Live streams data found.', 'data' => json_decode(json_encode($data), true)];
+        }else{
+            return ['status' => 0, 'message' => 'Live streams data not found.'];
+        }
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		// $url = $this->wsc_api_baseurl."/live_streams";
+		// $header = [
+		// 	"Content-Type:"  	. "application/json",
+		// 	"charset:"			. "utf-8",
+		// 	"Authorization: Bearer ". $this->auth_token
+		// 	// "wsc-api-key:"		. $this->wsc_api_key,
+		// 	// "wsc-access-key:"	. $this->wsc_access_key,
+		// ];
 
-		$server_output = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close ($ch);
-		$output = json_decode($server_output);
-		return $output;
+		// $ch = curl_init();
+		// curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
+		// curl_setopt($ch, CURLOPT_URL,$url);
+		// curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		// $server_output = curl_exec($ch);
+		// $err = curl_error($ch);
+		// curl_close ($ch);
+		// $output = json_decode($server_output);
+		// return $output;
 	}
 
 	/* Get Live Streaming Detail */
-	public function GetLiveStreaming($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId";
-		$header = [
-			"Content-Type:"  	. "application/json",
-			"charset:"			. "utf-8",
-			"Authorization: Bearer ". $this->auth_token
-			// "wsc-api-key:"		. $this->wsc_api_key,
-			// "wsc-access-key:"	. $this->wsc_access_key,
-		];
+	public function GetLiveStreaming($wowza_id) {
+        $data = LiveStreaming::where('wowza_id', $wowza_id)->first();
+        if(!empty($data)){
+            return ['status' => 1, 'message' => 'Live stream data found.', 'data' =>  json_decode(json_encode($data), true)];
+        }else{
+            return ['status' => 0, 'message' => 'Live stream data not found.'];
+        }
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		// $url = $this->wsc_api_baseurl."/live_streams/$wowza_id";
+		// $header = [
+		// 	"Content-Type:"  	. "application/json",
+		// 	"charset:"			. "utf-8",
+		// 	"Authorization: Bearer ". $this->auth_token
+		// 	// "wsc-api-key:"		. $this->wsc_api_key,
+		// 	// "wsc-access-key:"	. $this->wsc_access_key,
+		// ];
 
-		$server_output = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close ($ch);
-		$output = json_decode($server_output);
-		return $output;
+		// $ch = curl_init();
+		// curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
+		// curl_setopt($ch, CURLOPT_URL,$url);
+		// curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		// $server_output = curl_exec($ch);
+		// $err = curl_error($ch);
+		// curl_close ($ch);
+		// $output = json_decode($server_output);
+		// return $output;
 	}
 
 	/* Update Live Stream */
-	public function UpdateLiveStream($streamingId, $data){
+	public function UpdateLiveStream($wowza_id, $data){
 		/* $data should be json encoded */
-		$url = $this->wsc_api_baseurl."/live_streams/".$streamingId;
+		$url = $this->wsc_api_baseurl."/live_streams/".$wowza_id;
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -157,6 +176,21 @@ class GatewayStream{
 			// "wsc-api-key:"		. $this->wsc_api_key,
 			// "wsc-access-key:"	. $this->wsc_access_key,
 		];
+
+        $postdata['live_stream'] = [
+            "name"                  => $data['name'],
+            "description"           => $data['description'],
+            "transcoder_type"       => "transcoded",
+            "billing_mode"          => "pay_as_you_go",
+            "encoder"               => $data['encoder'],    
+            "disable_authentication" => true,
+            "aspect_ratio_height"   => "720",
+            "aspect_ratio_width"    => "1280",
+            "delivery_method"       => "push",
+            "player_responsive"     => true,
+            "low_latency"           => true,
+            "recording"             => true
+        ];
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
@@ -164,18 +198,52 @@ class GatewayStream{
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));
 
 		$server_output = curl_exec($ch);
 		$err = curl_error($ch);
 		curl_close ($ch);
 		$output = json_decode($server_output);
-		return $output;
+		
+        if(isset($output->live_stream)) {
+            $outputData = $output->live_stream;
+            $input = [
+                'stream_title' => $outputData->name,
+                'description' => $outputData->description,
+                'state' => $outputData->state,
+                'billing_mode' => $outputData->billing_mode,
+                'recording' => $outputData->recording,
+                'encoder' => $outputData->encoder,
+                'delivery_method' => $outputData->delivery_method,
+                'sdp_url' => $outputData->source_connection_information->sdp_url,
+                'application_name' => $outputData->source_connection_information->application_name,
+                'stream_name' => $outputData->source_connection_information->stream_name,
+                'hls_playback_url' => $outputData->hls_playback_url,
+                'stream_price' => $data['stream_price'],
+                'price_currency' => $data['price_currency'],
+                'image' => $data['image'],
+                'player_id' => $outputData->player_id,
+                'stream_date' => $data['stream_date'],
+                'stream_time' => $data['stream_time']
+            ];
+
+            $update = LiveStreaming::where('wowza_id', $wowza_id)->update($input);
+            if($update) {
+				$msg = "Live Streaming update successully.";
+                return ['status' => 1, 'message' => $msg];
+			}else{
+				$msg = 'Live Streaming not update please try again 1.';
+				return ['status' => 0, 'message' => $msg];
+			}
+        }else{
+            $msg = 'Live Streaming not update please try again 2.';
+            return ['status' => 0, 'message' => $msg];
+        }
 	}
 
 	/* Delete Live Streaming */
-	public function DeleteLiveStreaming($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId";
+	public function DeleteLiveStreaming($wowza_id) {
+		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -195,62 +263,94 @@ class GatewayStream{
 		$err = curl_error($ch);
 		curl_close ($ch);
 		$output = json_decode($server_output);
-		return $output;
+		if($output == null){
+            $delete = LiveStreaming::where('wowza_id', $wowza_id)->delete();
+            return ['status' => 1, 'message' => 'Live streaming delete successfully.'];
+        }else{
+            return ['status' => 1, 'message' => 'Live streaming not delete please try again.'];
+        }
 	}
 
 	/* Start Live Streaming */
-	public function LiveStreamingStart($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/start";
-		$header = [
-			"Content-Type:"  	. "application/json",
-			"charset:"			. "utf-8",
-			"Authorization: Bearer ". $this->auth_token
-			// "wsc-api-key:"		. $this->wsc_api_key,
-			// "wsc-access-key:"	. $this->wsc_access_key,
-		];
+	public function LiveStreamingStart($wowza_id) {
+        $streamData = $this->GetLiveStreaming($wowza_id);
+        if($streamData['status'] == 1 && isset($streamData['data']['state']) && $streamData['data']['state'] == 'stopped'){
+            $url = $this->wsc_api_baseurl."/live_streams/$wowza_id/start";
+            $header = [
+                "Content-Type:"  	. "application/json",
+                "charset:"			. "utf-8",
+                "Authorization: Bearer ". $this->auth_token
+                // "wsc-api-key:"		. $this->wsc_api_key,
+                // "wsc-access-key:"	. $this->wsc_access_key,
+            ];
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-		$server_output = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close ($ch);
-		$output = json_decode($server_output);
-		return $output;
+            $server_output = curl_exec($ch);
+            $err = curl_error($ch);
+            curl_close ($ch);
+            $output = json_decode($server_output);
+            if(isset($output->live_stream) && $output->live_stream->state == 'starting'){
+                do {
+                    $streamStatus = $this->LiveStreamingStatus($wowza_id);
+                } while ($streamStatus['status'] == 1 && isset($streamStatus['data']['live_stream']) && $streamStatus['data']['live_stream']['state'] != 'started');
+
+                $update = LiveStreaming::where('wowza_id', $wowza_id)->update(['state' => 'started']);
+
+                return ['status' => 1, 'message' => 'Live stream started'];
+            }else{
+                return ['status' => 0, 'message' => $output->meta->message];
+            }
+        }else if($streamData['status'] == 1 && isset($streamData['data']['state']) && $streamData['data']['state'] == 'started'){
+            return ['status' => 0, 'message' => 'Live starem already started.'];
+        }else{
+            return ['status' => 0, 'message' => 'Something went wrong please try again.'];
+        }
 	}
 
 	/* Stop Live Streaming */
-	public function LiveStreamingStop($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/stop";
-		$header = [
-			"Content-Type:"  	. "application/json",
-			"charset:"			. "utf-8",
-			"Authorization: Bearer ". $this->auth_token
-			// "wsc-api-key:"		. $this->wsc_api_key,
-			// "wsc-access-key:"	. $this->wsc_access_key,
-		];
+	public function LiveStreamingStop($wowza_id) {
+        $streamData = $this->GetLiveStreaming($wowza_id);
+        if($streamData['status'] == 1 && isset($streamData['data']['state']) && $streamData['data']['state'] == 'started'){
+            $url = $this->wsc_api_baseurl."/live_streams/$wowza_id/stop";
+            $header = [
+                "Content-Type:"  	. "application/json",
+                "charset:"			. "utf-8",
+                "Authorization: Bearer ". $this->auth_token
+                // "wsc-api-key:"		. $this->wsc_api_key,
+                // "wsc-access-key:"	. $this->wsc_access_key,
+            ];
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "PUT");
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-		$server_output = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close ($ch);
-		$output = json_decode($server_output);
-		return $output;
+            $server_output = curl_exec($ch);
+            $err = curl_error($ch);
+            curl_close ($ch);
+            $output = json_decode($server_output);
+            if(isset($output->live_stream) && $output->live_stream->state == 'stopped'){
+                $update = LiveStreaming::where('wowza_id', $wowza_id)->update(['state' => 'stopped']);
+                return ['status' => 1, 'message' => 'Live stream stopped'];
+            }else{
+                return ['status' => 0, 'message' => $output->meta->message];
+            }
+        }else{
+            return ['status' => 0, 'message' => 'Live stream already stopped'];
+        }
 	}
 
 	/* Reset Live Stream */
-	public function LiveStreamingReset($streamingId){
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/reset";
+	public function LiveStreamingReset($wowza_id){
+		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id/reset";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -274,8 +374,8 @@ class GatewayStream{
 	}
 
 	/* Regenerate Connection Code */
-	public function RegenerateConnectionCode($streamingId){
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/regenerate_connection_code";
+	public function RegenerateConnectionCode($wowza_id){
+		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id/regenerate_connection_code";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -299,8 +399,8 @@ class GatewayStream{
 	}
 
 	/* Show Live Streaming Status */
-	public function LiveStreamingStatus($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/state";
+	public function LiveStreamingStatus($wowza_id) {
+		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id/state";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -320,14 +420,15 @@ class GatewayStream{
 		$err = curl_error($ch);
 		curl_close ($ch);
 		$output = json_decode($server_output);
-		return $output;
+		
+        return ['status' => 1, 'message' => 'Status found', 'data' => json_decode(json_encode($output), true)];
 	}
 
 	/* ========== End:: Wowza API Functions ========== */
 	/* ========== Start:: Wowza Streaming Publish Status ========== */
 
-	public function LiveStreamingPlayingStatus($streamingId) {
-		$url = $this->wsc_api_baseurl."/live_streams/$streamingId/stats";
+	public function LiveStreamingPlayingStatus($wowza_id) {
+		$url = $this->wsc_api_baseurl."/live_streams/$wowza_id/stats";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",
@@ -353,8 +454,8 @@ class GatewayStream{
 	/* ========== End:: Wowza Streaming Publish Status ========== */
 	/* ========== Start:: Wowza Player ========== */
 
-	public function LiveStreamingPlayer($streamingId) {
-		$url = $this->wsc_api_baseurl."/players/$streamingId";
+	public function LiveStreamingPlayer($wowza_id) {
+		$url = $this->wsc_api_baseurl."/players/$wowza_id";
 		$header = [
 			"Content-Type:"  	. "application/json",
 			"charset:"			. "utf-8",

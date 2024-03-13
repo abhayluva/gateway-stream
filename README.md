@@ -99,7 +99,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 	- SearchLiveStream(text); /* Search Live stream by stream title */
 
-	- CreateLiveStream($data); /* $data should in array format */
+	- CreateLiveStream($data); /* $data should in array format - here you have to pass parameters which we added in model */
 
  	- getAllLiveStreams($user_id); /* Get all live streams details */
 

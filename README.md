@@ -56,6 +56,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
    		- "protected $primaryKey = 'stream_id';" /* path app/models/filename */
 
        		- protected $fillable = [
+	 		'user_id',
 			'stream_id',
 			'wowza_id',
 			'stream_title',
@@ -84,33 +85,33 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
  
 6 - Create object of class
 
-	- $data = new GatewayStream(api_access_token)
+	- $data = new GatewayStream()
  
 7 - Now you can call wowza platform any live streaming api with the help of wowoza_key
 
-	- ex:- $data->GetLiveStreaming($wowoza_key)
+	- ex:- $data->GetLiveStreaming($user_id, $wowoza_key)
 
 8 - live streaming method which is available in library
 
 	- CreateLiveStream($data); /* $data should in array format */
  
- 	- UpdateLiveStream($wowza_id, $data); /* $wowoza_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
+ 	- UpdateLiveStream($user_id, $wowza_id, $data); /* $wowoza_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
   
-	- GetLiveStreaming($wowza_id); /* Get the details of specific strem */
+	- GetLiveStreaming($user_id, $wowza_id); /* Get the details of specific strem */
  
-	- LiveStreamingStatus($wowza_id); /* Get the status of stream ex:- started/stopped */
+	- LiveStreamingStatus($user_id, $wowza_id); /* Get the status of stream ex:- started/stopped */
  
-	- LiveStreamingStart($wowza_id); /* Start the live streaming */
+	- LiveStreamingStart($user_id, $wowza_id); /* Start the live streaming */
  
-	- LiveStreamingStop($wowza_id); /* Stop live streaming */
+	- LiveStreamingStop($user_id, $wowza_id); /* Stop live streaming */
  
- 	- LiveStreamingReset($wowza_id); /* Reset live stream */
+ 	- LiveStreamingReset($user_id, $wowza_id); /* Reset live stream */
   
-	- DeleteLiveStreaming($wowza_id); /* Delete any stream which you have created */
+	- DeleteLiveStreaming($user_id, $wowza_id); /* Delete any stream which you have created */
  
-	- LiveStreamingPlayingStatus($wowza_id); /* This is only work in wowza api version 1.8 otherwise it will not work */
+	- LiveStreamingPlayingStatus($user_id, $wowza_id); /* This is only work in wowza api version 1.8 otherwise it will not work */
  
-	- LiveStreamingPlayer($wowza_id);
+	- LiveStreamingPlayer($user_id, $wowza_id);
  
 	- GetHlsBitrateUrls($hlsURL); /* Show the details of recorded stream | hlsURL is m3u8 file */
  
@@ -256,4 +257,4 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   
     ];
 
-- $response = $data->UpdateLiveStream('wowoza_key', $postdata); /* stream_key = id of stream which will get from CreateLiveStream function response */
+- $response = $data->UpdateLiveStream($user_id, $wowoza_id, $postdata); /* stream_key = id of stream which will get from CreateLiveStream function response */

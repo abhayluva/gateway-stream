@@ -31,8 +31,6 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 		- $table->string('application_name');
   		- $table->string('stream_name');
   		- $table->string('hls_playback_url');
-	     	- $table->string('created_at');
-		- $table->string('updated_at');
 		- $table->string('stream_price')->default(null);
   		- $table->string('price_currency')->default(null);
    		- $table->string('image')->default(null);

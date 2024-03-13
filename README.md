@@ -116,10 +116,8 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 	- LiveStreamingStatus($user_id, $wowza_id); /* Get the status of stream ex:- started/stopped */
  
 	- LiveStreamingPublish($user_id, $wowza_id);
-
-  	- LiveStreamingStatistics($user_id, $wowza_id);
  
-	- LiveStreamingPlayingStatus($user_id, $wowza_id); /* This is only work in wowza api version 1.8 otherwise it will not work */
+	- LiveStreamingPlayingStatus($user_id, $wowza_id); /* Published stream live statistics */
  
 	- LiveStreamingPlayer($user_id, $wowza_id);
  

@@ -1,4 +1,4 @@
-This is live streaming library which is based on wowza platform www.wowza.com
+This is "Laravel" live streaming library which is based on wowza platform www.wowza.com
 
 1 - install php library
 
@@ -11,6 +11,29 @@ This is live streaming library which is based on wowza platform www.wowza.com
 3 - We have used live streaming api of wowza platform
 
 	- https://developer.wowza.com/docs/wowza-video/api/video/current/overview/
+
+3 - create table live_streaming and add fields
+
+	- php artisan make:migration create_live_streaming_table
+
+ 	- add below fields inside "up()" function to created table 
+  		- $table->increments('stream_id');
+    		- $table->string('wowza_id');
+      		- $table->string('stream_title');
+		- $table->string('description');
+  		- $table->string('state');
+    		- $table->string('billing_mode');
+      		- $table->string('broadcast_location');
+		- $table->boolean('recording'); /* for true or false value */
+  		- $table->string('encoder');
+    		- $table->string('delivery_method');
+      		- $table->string('sdp_url');
+		- $table->string('application_name');
+  		- $table->string('stream_name');
+    		- $table->string('hls_playback_url');
+      		- $table->string('created_at');
+		- $table->string('updated_at');
+
  
 4 - Add below code at the start of your page where you want to user library
 

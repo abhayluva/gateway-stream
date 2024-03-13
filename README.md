@@ -19,7 +19,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
  	2 - add below fields inside "up()" function to created table 
 		- $table->increments('stream_id'); /* auto increment id */
  		- $table->string('wowza_id')->default(null);
-    		- $table->string('stream_title')->default(null);
+  		- $table->string('stream_title')->default(null);
 		- $table->string('description')->default(null);
   		- $table->string('state');
  		- $table->string('billing_mode');
@@ -27,7 +27,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 		- $table->boolean('recording'); /* for true or false value */
   		- $table->string('encoder');
   		- $table->string('delivery_method');
-    		- $table->string('sdp_url');
+ 		- $table->string('sdp_url');
 		- $table->string('application_name');
   		- $table->string('stream_name');
   		- $table->string('hls_playback_url');

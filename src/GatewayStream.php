@@ -1,6 +1,6 @@
 <?php
 namespace Alphansotech\GatewayStreaming;
-
+use App\Models\LiveStreaming;
 class GatewayStream{
 	public $wsc_api_key = '';
 	public $wsc_access_key = '';

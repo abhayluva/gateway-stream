@@ -17,7 +17,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 	- https://developer.wowza.com/docs/wowza-video/api/video/current/overview/
 
-4 - create table live_streaming and add fields
+4 - create table live_streamings and add fields
 
 	1 - php artisan make:migration create_live_streamings_table
 
@@ -77,7 +77,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 		        'stream_time',
 			];
  
-5 - Add below code at the start of your page where you want to user library
+5 - Add below code at the start of your page where you want to use library
 
 	- use Alphansotech\GatewayStreaming\GatewayStream
  
@@ -85,15 +85,15 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 	- $data = new GatewayStream(api_access_token)
  
-7 - Now you can call eoeza platform any live streaming api with the help of stream_key
+7 - Now you can call wowza platform any live streaming api with the help of wowoza_key
 
-	- ex:- $data->GetLiveStreaming($stream_key)
+	- ex:- $data->GetLiveStreaming($wowoza_key)
 
 8 - live streaming method which is available in library
 
-	- CreateLiveStream($data); /* $data should be json encoded */
+	- CreateLiveStream($data); /* $data should in array format */
  
- 	- UpdateLiveStream($wowza_id, $data); /* $stream_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
+ 	- UpdateLiveStream($wowza_id, $data); /* $wowoza_key = id of stream which will get from CreateLiveStream function response and $data should be json encoded */
   
 	- GetLiveStreaming($wowza_id); /* Get the details of specific strem */
  
@@ -223,7 +223,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   
     ];
 
-- $response = $data->CreateLiveStream(json_encode($postdata));
+- $response = $data->CreateLiveStream($postdata);
 
 => Example of update live stream:
 
@@ -257,4 +257,4 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   
     ];
 
-- $response = $data->UpdateLiveStream('stream_key', json_encode($postdata)); /* stream_key = id of stream which will get from CreateLiveStream function response */
+- $response = $data->UpdateLiveStream('wowoza_key', $postdata); /* stream_key = id of stream which will get from CreateLiveStream function response */

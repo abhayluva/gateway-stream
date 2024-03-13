@@ -79,6 +79,8 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 		        'player_id',
 		        'stream_date',
 		        'stream_time',
+	  		'stream_status',
+        		'advertisement_status'
 			];
  
 5 - Add below code at the start of your page where you want to use library

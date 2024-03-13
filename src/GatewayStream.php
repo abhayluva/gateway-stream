@@ -480,6 +480,72 @@ class GatewayStream{
         }
     }
 
+    /* Live Stream Statistics */
+    public function LiveStreamingStatistics($user_id, $wowza_id){
+        $getData = $this->GetLiveStreaming($user_id, $wowza_id);
+        if(!empty($getData)){
+            $url = $this->wsc_api_baseurl."/analytics/ingest/live_streams/$wowza_id";
+            $header = [
+                "Content-Type:"  	. "application/json",
+                "charset:"			. "utf-8",
+                "Authorization: Bearer ". $this->auth_token
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST , "GET");
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+            $server_output = curl_exec($ch);
+            $err = curl_error($ch);
+            curl_close ($ch);
+            $output = json_decode($server_output);
+            
+            if(isset($output->live_stream)){
+                $data = json_decode(json_encode($output->live_stream), true);
+                $res = [
+                    'inbound' => $data['connected']['value'],
+                    'inbound_bit_rate' => $data['bytes_in_rate']['value'],
+                    'frame_size' => $data['frame_size']['value'],
+                    'frame_rate' => $data['frame_rate']['value'],
+                    'keyframe_interval' => $data['keyframe_interval']['value'],
+                ];
+
+                /* Viewers details */
+                $url1 = $this->wsc_api_baseurl."/analytics/viewers/live_streams/$wowza_id";
+
+                $ch1 = curl_init();
+                curl_setopt($ch1, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+                curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch1, CURLOPT_CUSTOMREQUEST , "GET");
+                curl_setopt($ch1, CURLOPT_URL,$url1);
+                curl_setopt($ch1, CURLOPT_HTTPHEADER, $header);
+
+                $server_output1 = curl_exec($ch1);
+                $err = curl_error($ch1);
+                curl_close ($ch1);
+                $output1 = json_decode($server_output1);
+
+                if(isset($output1->live_stream)){
+                    $data1 = json_decode(json_encode($output1->live_stream), true);
+                    $res['unique_views'] = $data1['viewers'];
+                }else{
+                    $res['unique_views'] = 0;
+                }
+
+                return ['status' => 1, 'message' => 'Data found', 'data' => $res];
+            }else if(isset($output->meta)){
+                return ['status' => 0, 'message' => $output->meta->message];
+            }else{
+                return ['status' => 0, 'message' => 'Live Streaming details not found.'];    
+            }
+        }else{
+            return ['status' => 0, 'message' => 'Live Streaming details not found.'];
+        }
+    }
+
     /* Get Wowza Single Streaming */
     public function GetWowzaSingleStreaming($wowza_id){
         $url = $this->wsc_api_baseurl."/live_streams/$wowza_id";

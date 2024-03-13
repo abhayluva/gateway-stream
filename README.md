@@ -14,7 +14,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
 4 - create table live_streaming and add fields
 
-	1 - php artisan make:migration create_live_streaming_table
+	1 - php artisan make:migration create_live_streamings_table
 
  	2 - add below fields inside "up()" function to created table 
 		- $table->id('stream_id'); /* auto increment id */
@@ -38,14 +38,39 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
   		- $table->date('stream_date')->default(null);
          	- $table->time('stream_time')->default(null);
 
-  	3 - now run "php artisan migrate" and "live_streaming" table will create in your database
+  	3 - now run "php artisan migrate" and "live_streamings" table will create in your database
 
 
 5 - create a laravel model for databse connection
 
  	1 - php artisan make:model LiveStreaming
 
-  	2 - add this to model file "protected $primaryKey = 'stream_id';" /* path app/models/filename */
+  	2 - add this to model file 
+   
+   		- "protected $primaryKey = 'stream_id';" /* path app/models/filename */
+
+       		- protected $fillable = [
+			'stream_id',
+			'wowza_id',
+			'stream_title',
+			'description',
+			'state',
+			'billing_mode',
+			'broadcast_location',
+			'recording',
+			'encoder',
+			'delivery_method',
+		        'sdp_url',
+		        'application_name',
+		        'stream_name',
+		        'hls_playback_url',
+		        'stream_price',
+		        'price_currency',
+		        'image',
+		        'player_id',
+		        'stream_date',
+		        'stream_time',
+			];
  
 5 - Add below code at the start of your page where you want to user library
 

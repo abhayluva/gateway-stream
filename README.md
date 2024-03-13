@@ -23,6 +23,7 @@ This is "Laravel" live streaming library which is based on wowza platform www.wo
 
  	2 - add below fields inside "up()" function to created table 
 		- $table->id('stream_id'); /* auto increment id */
+  		- $table->integer('user_id')->default(0); /* Authenticated user id */
  		- $table->string('wowza_id')->default(null);
   		- $table->string('stream_title')->default(null);
 		- $table->string('description')->default(null);

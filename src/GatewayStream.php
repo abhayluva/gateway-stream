@@ -146,8 +146,9 @@ class GatewayStream{
 	/* Get Live Streaming Detail */
 	public function GetLiveStreaming($user_id, $wowza_id) {
         $data = LiveStreaming::where(['user_id' => $user_id, 'wowza_id' => $wowza_id])->first();
+        $wowzaData = $this->GetWowzaSingleStreaming($wowza_id);
         if(!empty($data)){
-            return ['status' => 1, 'message' => 'Live stream data found.', 'data' =>  json_decode(json_encode($data), true)];
+            return ['status' => 1, 'message' => 'Live stream data found.', 'data' =>  json_decode(json_encode($data), true), 'wowzaData' => $wowzaData];
         }else{
             return ['status' => 0, 'message' => 'Live stream data not found.'];
         }	
@@ -234,7 +235,7 @@ class GatewayStream{
 	/* Delete Live Streaming */
 	public function DeleteLiveStreaming($user_id, $wowza_id) {
         $getData = $this->GetLiveStreaming($user_id, $wowza_id);
-        if(!empty($getData) && $getData['data']['live_stream']['status'] == 'stopped'){
+        if(!empty($getData) && $getData['data']['state'] == 'stopped'){
             $url = $this->wsc_api_baseurl."/live_streams/$wowza_id";
             $header = [
                 "Content-Type:"  	. "application/json",
@@ -262,7 +263,7 @@ class GatewayStream{
             }else{
                 return ['status' => 1, 'message' => $output->meta->message];
             }
-        }else if(!empty($getData) && $getData['data']['live_stream']['status'] == 'started'){
+        }else if(!empty($getData) && $getData['data']['state'] == 'started'){
             return ['status' => 0, 'message' => 'Live stream is started, please stop first and then remove.'];
         }else{
             return ['status' => 0, 'message' => 'Live stream details not found.'];
@@ -387,7 +388,7 @@ class GatewayStream{
 	/* Regenerate Connection Code */
 	public function RegenerateConnectionCode($user_id, $wowza_id){
         $getData = $this->GetLiveStreaming($user_id, $wowza_id);
-        if(!empty($getData)){
+        if(!empty($getData) && $getData['status'] == 1){
             $url = $this->wsc_api_baseurl."/live_streams/$wowza_id/regenerate_connection_code";
             $header = [
                 "Content-Type:"  	. "application/json",
@@ -417,7 +418,7 @@ class GatewayStream{
 	/* Show Live Streaming Status */
 	public function LiveStreamingStatus($user_id, $wowza_id) {
         $getData = $this->GetLiveStreaming($user_id, $wowza_id);
-        if(!empty($getData)){
+        if(!empty($getData) && $getData['status'] == 1){
             $url = $this->wsc_api_baseurl."/live_streams/$wowza_id/state";
             $header = [
                 "Content-Type:"  	. "application/json",
@@ -448,7 +449,7 @@ class GatewayStream{
     /* Publish Live Streaming */
     public function LiveStreamingPublish($user_id, $wowza_id){
         $getData = $this->GetLiveStreaming($user_id, $wowza_id);
-        if(!empty($getData)){
+        if(!empty($getData) && $getData['status'] == 1){
             $getStream = $this->GetWowzaSingleStreaming($wowza_id);
             if(isset($getStream->live_stream)) {
                 $streamStatus = $this->LiveStreamingStatus($user_id, $wowza_id);
@@ -510,7 +511,7 @@ class GatewayStream{
 
 	public function LiveStreamingPlayingStatus($user_id, $wowza_id) {
 		$getData = $this->GetLiveStreaming($user_id, $wowza_id);
-        if(!empty($getData)){
+        if(!empty($getData) && $getData['status'] == 1){
             $url = $this->wsc_api_baseurl."/analytics/ingest/live_streams/$wowza_id";
             $header = [
                 "Content-Type:"  	. "application/json",

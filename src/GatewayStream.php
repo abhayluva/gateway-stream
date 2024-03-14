@@ -555,7 +555,7 @@ class GatewayStream{
                 $err = curl_error($ch1);
                 curl_close ($ch1);
                 $output1 = json_decode($server_output1);
-
+                
                 if(isset($output1->live_stream)){
                     $data1 = json_decode(json_encode($output1->live_stream), true);
                     $res['unique_views'] = $data1['viewers'];
